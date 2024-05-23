@@ -12,3 +12,9 @@ r : Permesso di lettura (read).
 w : Permesso di scrittura (write).
 - : Nessun permesso di esecuzione (execute).
 
+
+Dettaglio del Pattern drw-r--r-x
+La voce è una directory.
+Il proprietario della directory ha i permessi di lettura e scrittura, ma non di esecuzione.
+Il gruppo a cui appartiene la directory ha solo il permesso di lettura.
+Tutti gli altri utenti hanno permessi di lettura e di esecuzione.
