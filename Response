@@ -31,3 +31,12 @@ che sta per Confidentiality (Riservatezza), Integrity (Integrità) e Availabilit
 
 L'allocazione su disco mediante indicizzazione ad albero comporta l'uso di un albero B o B+ per tenere traccia dei blocchi su disco in cui sono memorizzati i dati di un file. 
 Ogni chiave nell'albero rappresenta un intervallo o un blocco di dati, e i nodi dell'albero contengono puntatori ai blocchi di dati reali su disco.
+
+
+Il file system utilizza varie tecniche per tracciare lo spazio libero su disco, assicurando una gestione efficiente della memorizzazione dei dati. Ecco alcune delle principali tecniche utilizzate:
+ Bitmap
+Liste Collegate
+Tabelle di Allocazione dei File (FAT)
+Gruppi di Blocco (Block Groups)
+Vectors di Estent (Extent Maps)
+
