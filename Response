@@ -1,28 +1,4 @@
-"mounting" (montare) si riferisce al processo di rendere accessibile un file system situato su un dispositivo di archiviazione
 
-
-Nei sistemi operativi, le ACL vengono utilizzate per definire i permessi su file e directory.Le ACL nei contesti di rete e firewall sono utilizzate 
-per controllare il traffico di rete, decidendo quali pacchetti possono attraversare un router o un firewall.
-
-
-Dettaglio del Pattern --rw--------
-- : Il primo carattere è un trattino (-), il che indica che si tratta di un file regolare.
-rw- : I tre caratteri successivi indicano i permessi per il proprietario del file:
-r : Permesso di lettura (read).
-w : Permesso di scrittura (write).
-- : Nessun permesso di esecuzione (execute).
-
-
-Dettaglio del Pattern drw-r--r-x
-La voce è una directory.
-Il proprietario della directory ha i permessi di lettura e scrittura, ma non di esecuzione.
-Il gruppo a cui appartiene la directory ha solo il permesso di lettura.
-Tutti gli altri utenti hanno permessi di lettura e di esecuzione.
-
-
-
-Un device driver è un componente software che permette al sistema operativo e ad altre applicazioni di interagire con hardware specifico.
-I driver fungono da intermediari tra l'hardware del computer e il software, traducendo le richieste delle applicazioni e del sistema operativo in istruzioni comprensibili per l'hardware e viceversa.
 
 
 
