@@ -1,20 +1,4 @@
-Il file system utilizza varie tecniche per tracciare lo spazio libero su disco, assicurando una gestione efficiente della memorizzazione dei dati. Ecco alcune delle principali tecniche utilizzate:
- Bitmap
-Liste Collegate
-Tabelle di Allocazione dei File (FAT)
-Gruppi di Blocco (Block Groups)
-Vectors di Estent (Extent Maps)
 
-
-
-Vantaggi dell'I/O Interrupt-Driven
-Efficienza della CPU
-Risposta Immediata
-Scalabilità
-Vantaggi della Modalità Polling
-Semplicità
-Determinismo
-Controllo Completo: 
 
 
 I sistemi operativi utilizzano diverse tecniche di crittografia per proteggere i file
@@ -41,3 +25,7 @@ Il casting consente di gestire e manipolare diversi tipi di dati
 Conversione di Tipo
 Correzione di Incompatibilità di Tipo
 Troncamento o Arrotondamento di Numeri
+
+è giusta la tabella
+
+
