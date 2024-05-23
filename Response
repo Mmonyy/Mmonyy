@@ -23,3 +23,8 @@ Tutti gli altri utenti hanno permessi di lettura e di esecuzione.
 
 Un device driver è un componente software che permette al sistema operativo e ad altre applicazioni di interagire con hardware specifico.
 I driver fungono da intermediari tra l'hardware del computer e il software, traducendo le richieste delle applicazioni e del sistema operativo in istruzioni comprensibili per l'hardware e viceversa.
+
+
+
+Gli obiettivi principali della sicurezza informatica, noti anche come principi fondamentali della sicurezza delle informazioni, sono generalmente riassunti nell'acronimo CIA,
+che sta per Confidentiality (Riservatezza), Integrity (Integrità) e Availability (Disponibilità)
