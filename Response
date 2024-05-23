@@ -28,3 +28,6 @@ I driver fungono da intermediari tra l'hardware del computer e il software, trad
 
 Gli obiettivi principali della sicurezza informatica, noti anche come principi fondamentali della sicurezza delle informazioni, sono generalmente riassunti nell'acronimo CIA,
 che sta per Confidentiality (Riservatezza), Integrity (Integrità) e Availability (Disponibilità)
+
+L'allocazione su disco mediante indicizzazione ad albero comporta l'uso di un albero B o B+ per tenere traccia dei blocchi su disco in cui sono memorizzati i dati di un file. 
+Ogni chiave nell'albero rappresenta un intervallo o un blocco di dati, e i nodi dell'albero contengono puntatori ai blocchi di dati reali su disco.
