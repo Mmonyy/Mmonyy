@@ -27,3 +27,10 @@ Crittografia End-to-End
 
 Il "casting" è un concetto fondamentale nella programmazione che si riferisce alla conversione di un tipo di dato in un altro.
 Questa operazione è spesso necessaria quando si lavora con linguaggi di programmazione fortemente tipizzati, come C, C++, Java e molti altri.
+
+
+Tipi di Dati Fondamentali in C
+int: Utilizzato per memorizzare numeri interi.
+float: Utilizzato per memorizzare numeri in virgola mobile a precisione singola.
+double: Utilizzato per memorizzare numeri in virgola mobile a precisione doppia.
+char: Utilizzato per memorizzare caratteri.
