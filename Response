@@ -40,3 +40,15 @@ Tabelle di Allocazione dei File (FAT)
 Gruppi di Blocco (Block Groups)
 Vectors di Estent (Extent Maps)
 
+
+
+Vantaggi dell'I/O Interrupt-Driven
+Efficienza della CPU
+Risposta Immediata
+Scalabilità
+Vantaggi della Modalità Polling
+Semplicità
+Determinismo
+Controllo Completo: 
+
+
