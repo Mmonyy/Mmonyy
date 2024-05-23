@@ -1,2 +1,6 @@
 "mounting" (montare) si riferisce al processo di rendere accessibile un file system situato su un dispositivo di archiviazione
 
+
+Nei sistemi operativi, le ACL vengono utilizzate per definire i permessi su file e directory.Le ACL nei contesti di rete e firewall sono utilizzate 
+per controllare il traffico di rete, decidendo quali pacchetti possono attraversare un router o un firewall.
+
