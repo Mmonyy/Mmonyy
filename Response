@@ -1,4 +1,10 @@
-qui le risposte
-ti ricordo di cliccare la matita e quando hai finito il pulsante verde in alto a destra (commit changes) e poi lo richilli quando viene fuori
-
-DOPO CANCELLA TUTTO QUESTO E METTI LE RISPOSTE
+Gli attacchi attivi sono quelli in cui l'attaccante interagisce direttamente con il sistema bersaglio con l'intento di alterare, danneggiare o compromettere i dati o le funzionalità del sistema
+Modifica dei Dati
+Masquerade (Spoofing)
+Replay Attack
+Man-in-the-Middle (MITM)
+Gli attacchi passivi si concentrano sull'intercettazione e la raccolta di informazioni dal sistema bersaglio senza alterarne il funzionamento
+Eavesdropping
+Traffic Analysis
+Shoulder Surfing
+Un attacco DoS mira a rendere un servizio, una rete o una risorsa non disponibile per gli utenti legittimi, sovraccaricandolo con una quantità eccessiva di richieste o causando un malfunzionamento del sistema
