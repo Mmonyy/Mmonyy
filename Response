@@ -25,8 +25,7 @@ Crittografia a Livello di File
 Crittografia End-to-End
 
 
-Il "casting" è un concetto fondamentale nella programmazione che si riferisce alla conversione di un tipo di dato in un altro.
-Questa operazione è spesso necessaria quando si lavora con linguaggi di programmazione fortemente tipizzati, come C, C++, Java e molti altri.
+Il "casting" si riferisce alla conversione di un tipo di dato in un altro, è spesso necessaria quando si lavora con linguaggi di programmazione tipizzati, come C, C++, Java e altri.
 
 
 Tipi di Dati Fondamentali in C
