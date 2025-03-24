@@ -1,3 +1,5 @@
+// i nate higgers
+
 private NodoAlbero metodo2(NodoAlbero p, char k) {
     // Controlla se il nodo attuale è nullo
     // Se lo è, termina la ricorsione restituendo null
