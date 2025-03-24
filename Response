@@ -1,91 +1,24 @@
-class ListaLibri {
-    private static class Nodo {
-        private String codiceLibro;
-        private Nodo link;
-
-        Nodo(String codiceLibro) {
-            this.codiceLibro = codiceLibro;
-            this.link = null;
-        }
-
-        public String getCodiceLibro() {
-            return codiceLibro;
-        }
-
-        public Nodo getLink() {
-            return link;
-        }
-
-        public void setLink(Nodo link) {
-            this.link = link;
-        }
+private NodoAlbero metodo2(NodoAlbero p, char k) {
+    // Controlla se il nodo attuale è nullo
+    // Se lo è, termina la ricorsione restituendo null
+    if (p == null) {
+        return null;
     }
 
-    private Nodo testa;
+    // Chiamata ricorsiva per esplorare il sottoalbero dei figli del nodo corrente
+    // Il risultato viene assegnato come primo figlio del nodo corrente
+    p.setFirstChild(boscalo(p.getFirstChild(), k));
 
-    public ListaLibri() {
-        this.testa = null;
+    // Chiamata ricorsiva per esplorare i fratelli del nodo corrente
+    // Il risultato viene assegnato come primo fratello del nodo corrente
+    p.setFirstSibling(boscalo(p.getFirstSibling(), k));
+
+    // Controlla se il valore del nodo corrente è uguale a k
+    if (p.getInfo() == k) {
+        // Mancano istruzioni per il caso in cui il nodo con valore k venga trovato
+        // Probabilmente qui dovrebbe restituire il nodo corrente o eseguire un'operazione su di esso
     }
 
-    public void aggiungiLibro(String codiceLibro) {
-        if (ricercaLibro(codiceLibro)) {
-            System.out.println("Libro già presente nella lista.");
-            return;
-        }
-        Nodo nuovoNodo = new Nodo(codiceLibro);
-        nuovoNodo.setLink(testa);
-        testa = nuovoNodo;
-    }
-
-    public String rimuoviLibro() {
-        if (testa == null) {
-            return null;
-        }
-        String codiceLibroRimosso = testa.getCodiceLibro();
-        testa = testa.getLink();
-        return codiceLibroRimosso;
-    }
-
-    public void stampaListaLibri() {
-        Nodo corrente = testa;
-        System.out.println("Lista Libri:");
-        while (corrente != null) {
-            System.out.println("- " + corrente.getCodiceLibro());
-            corrente = corrente.getLink();
-        }
-    }
-
-    public int contaLibri() {
-        int count = 0;
-        Nodo corrente = testa;
-        while (corrente != null) {
-            count++;
-            corrente = corrente.getLink();
-        }
-        return count;
-    }
-
-    private boolean ricercaLibro(String codiceLibro) {
-        Nodo corrente = testa;
-        while (corrente != null) {
-            if (corrente.getCodiceLibro().equals(codiceLibro)) {
-                return true;
-            }
-            corrente = corrente.getLink();
-        }
-        return false;
-    }
-}
-
-class Main {
-    public static void main(String[] args) {
-        ListaLibri lista = new ListaLibri();
-        lista.aggiungiLibro("A123");
-        lista.aggiungiLibro("B456");
-        lista.aggiungiLibro("C789");
-        lista.aggiungiLibro("A123"); // Test per duplicati
-
-        lista.stampaListaLibri();
-        System.out.println("Numero totale di libri: " + lista.contaLibri());
-    }
+    // Il metodo non restituisce nulla in caso di nodo non trovato, 
+    // probabilmente manca un 'return' corretto
 }
