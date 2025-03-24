@@ -1,1 +1,89 @@
-I'M NOTHING LIKE YALL!!!
+// NON SO SE è GIUSTO IN CASO SCRIVIMI:
+
+// PROMPT: questi sono gli argomenti che sono stati fatti, non andare al di fuori di questi argomenti: ereditarietà, array, try catch, gestione file, overriding, upcasting, downcasting, polimorfismo e binding, classi annidate, strutture ad alberi, nodi
+// sistema di gestione di un negozio di elettronica
+// si intende gestire i prodotti in vendita in un negozio di elettronica le entita principali sono: smartphone, tablet e computer portatili le caratteristiche comuni sono: marca modello prezzo e garanzia
+
+implementare in linguaggio java le classi progettate, specficando cstruttori e metodi d accesso agli attributi dal tipo di processore e sovrascrivendo opportunamente i metodi e entercodificare una class Elettronica il cui metdo main istanzi oggetti delle varie tipologia
+testi i metod
+
+// Classe base: ProdottoElettronico
+abstract class ProdottoElettronico {
+    protected String marca;
+    protected String modello;
+    protected double prezzo;
+    protected int garanzia;
+    protected String processore;
+
+    public ProdottoElettronico(String marca, String modello, double prezzo, int garanzia, String processore) {
+        this.marca = marca;
+        this.modello = modello;
+        this.prezzo = prezzo;
+        this.garanzia = garanzia;
+        this.processore = processore;
+    }
+
+    public String getDescrizione() {
+        return "Marca: " + marca + ", Modello: " + modello + ", Prezzo: " + prezzo + " EUR, Garanzia: " + garanzia + " anni, Processore: " + processore;
+    }
+}
+
+// Classe derivata: Smartphone
+class Smartphone extends ProdottoElettronico {
+    private boolean ha5G;
+
+    public Smartphone(String marca, String modello, double prezzo, int garanzia, String processore, boolean ha5G) {
+        super(marca, modello, prezzo, garanzia, processore);
+        this.ha5G = ha5G;
+    }
+
+    @Override
+    public String getDescrizione() {
+        return super.getDescrizione() + ", Supporto 5G: " + (ha5G ? "Sì" : "No");
+    }
+}
+
+// Classe derivata: Tablet
+class Tablet extends ProdottoElettronico {
+    private double dimensioneSchermo;
+
+    public Tablet(String marca, String modello, double prezzo, int garanzia, String processore, double dimensioneSchermo) {
+        super(marca, modello, prezzo, garanzia, processore);
+        this.dimensioneSchermo = dimensioneSchermo;
+    }
+
+    @Override
+    public String getDescrizione() {
+        return super.getDescrizione() + ", Schermo: " + dimensioneSchermo + " pollici";
+    }
+}
+
+// Classe derivata: ComputerPortatile
+class ComputerPortatile extends ProdottoElettronico {
+    private int ram;
+    private int storage;
+
+    public ComputerPortatile(String marca, String modello, double prezzo, int garanzia, String processore, int ram, int storage) {
+        super(marca, modello, prezzo, garanzia, processore);
+        this.ram = ram;
+        this.storage = storage;
+    }
+
+    @Override
+    public String getDescrizione() {
+        return super.getDescrizione() + ", RAM: " + ram + "GB, Storage: " + storage + "GB";
+    }
+}
+
+// Classe principale per testare le classi
+public class Elettronica {
+    public static void main(String[] args) {
+        ProdottoElettronico s1 = new Smartphone("Samsung", "Galaxy S21", 899.99, 2, "Exynos", true);
+        ProdottoElettronico t1 = new Tablet("Apple", "iPad Pro", 1099.99, 2, "M1", 12.9);
+        ProdottoElettronico c1 = new ComputerPortatile("Dell", "XPS 15", 1599.99, 3, "Intel i7", 16, 512);
+        
+        System.out.println(s1.getDescrizione());
+        System.out.println(t1.getDescrizione());
+        System.out.println(c1.getDescrizione());
+    }
+}
