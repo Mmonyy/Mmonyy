@@ -1,76 +1,91 @@
-// if wrong text me again
-abstract class ProdottoElettronico {
-    protected String marca;
-    protected String modello;
-    protected double prezzo;
-    protected int garanzia;
-    protected String processore;
+class ListaLibri {
+    private static class Nodo {
+        private String codiceLibro;
+        private Nodo link;
 
-    public ProdottoElettronico(String marca, String modello, double prezzo, int garanzia, String processore) {
-        this.marca = marca;
-        this.modello = modello;
-        this.prezzo = prezzo;
-        this.garanzia = garanzia;
-        this.processore = processore;
+        Nodo(String codiceLibro) {
+            this.codiceLibro = codiceLibro;
+            this.link = null;
+        }
+
+        public String getCodiceLibro() {
+            return codiceLibro;
+        }
+
+        public Nodo getLink() {
+            return link;
+        }
+
+        public void setLink(Nodo link) {
+            this.link = link;
+        }
     }
 
-    public String getDescrizione() {
-        return "Marca: " + marca + ", Modello: " + modello + ", Prezzo: " + prezzo + " EUR, Garanzia: " + garanzia + " anni, Processore: " + processore;
+    private Nodo testa;
+
+    public ListaLibri() {
+        this.testa = null;
+    }
+
+    public void aggiungiLibro(String codiceLibro) {
+        if (ricercaLibro(codiceLibro)) {
+            System.out.println("Libro già presente nella lista.");
+            return;
+        }
+        Nodo nuovoNodo = new Nodo(codiceLibro);
+        nuovoNodo.setLink(testa);
+        testa = nuovoNodo;
+    }
+
+    public String rimuoviLibro() {
+        if (testa == null) {
+            return null;
+        }
+        String codiceLibroRimosso = testa.getCodiceLibro();
+        testa = testa.getLink();
+        return codiceLibroRimosso;
+    }
+
+    public void stampaListaLibri() {
+        Nodo corrente = testa;
+        System.out.println("Lista Libri:");
+        while (corrente != null) {
+            System.out.println("- " + corrente.getCodiceLibro());
+            corrente = corrente.getLink();
+        }
+    }
+
+    public int contaLibri() {
+        int count = 0;
+        Nodo corrente = testa;
+        while (corrente != null) {
+            count++;
+            corrente = corrente.getLink();
+        }
+        return count;
+    }
+
+    private boolean ricercaLibro(String codiceLibro) {
+        Nodo corrente = testa;
+        while (corrente != null) {
+            if (corrente.getCodiceLibro().equals(codiceLibro)) {
+                return true;
+            }
+            corrente = corrente.getLink();
+        }
+        return false;
     }
 }
 
-class Smartphone extends ProdottoElettronico {
-    private boolean ha5G;
-
-    public Smartphone(String marca, String modello, double prezzo, int garanzia, String processore, boolean ha5G) {
-        super(marca, modello, prezzo, garanzia, processore);
-        this.ha5G = ha5G;
-    }
-
-    @Override
-    public String getDescrizione() {
-        return super.getDescrizione() + ", Supporto 5G: " + (ha5G ? "Sì" : "No");
-    }
-}
-
-class Tablet extends ProdottoElettronico {
-    private double dimensioneSchermo;
-
-    public Tablet(String marca, String modello, double prezzo, int garanzia, String processore, double dimensioneSchermo) {
-        super(marca, modello, prezzo, garanzia, processore);
-        this.dimensioneSchermo = dimensioneSchermo;
-    }
-
-    @Override
-    public String getDescrizione() {
-        return super.getDescrizione() + ", Schermo: " + dimensioneSchermo + " pollici";
-    }
-}
-
-class ComputerPortatile extends ProdottoElettronico {
-    private int ram;
-    private int storage;
-
-    public ComputerPortatile(String marca, String modello, double prezzo, int garanzia, String processore, int ram, int storage) {
-        super(marca, modello, prezzo, garanzia, processore);
-        this.ram = ram;
-        this.storage = storage;
-    }
-
-    @Override
-    public String getDescrizione() {
-        return super.getDescrizione() + ", RAM: " + ram + "GB, Storage: " + storage + "GB";
-    }
-}
-
-public class Elettronica {
+class Main {
     public static void main(String[] args) {
-        ProdottoElettronico s1 = new Smartphone("Samsung", "Galaxy S21", 899.99, 2, "Exynos", true);
-        ProdottoElettronico t1 = new Tablet("Apple", "iPad Pro", 1099.99, 2, "M1", 12.9);
-        ProdottoElettronico c1 = new ComputerPortatile("Dell", "XPS 15", 1599.99, 3, "Intel i7", 16, 512);
-        
-        System.out.println(s1.getDescrizione());
-        System.out.println(t1.getDescrizione());
-        System.out.println(c1.getDescrizione());
+        ListaLibri lista = new ListaLibri();
+        lista.aggiungiLibro("A123");
+        lista.aggiungiLibro("B456");
+        lista.aggiungiLibro("C789");
+        lista.aggiungiLibro("A123"); // Test per duplicati
+
+        lista.stampaListaLibri();
+        System.out.println("Numero totale di libri: " + lista.contaLibri());
     }
 }
