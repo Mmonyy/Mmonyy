@@ -1,13 +1,4 @@
-// NON SO SE è GIUSTO IN CASO SCRIVIMI:
-
-// PROMPT: questi sono gli argomenti che sono stati fatti, non andare al di fuori di questi argomenti: ereditarietà, array, try catch, gestione file, overriding, upcasting, downcasting, polimorfismo e binding, classi annidate, strutture ad alberi, nodi
-// sistema di gestione di un negozio di elettronica
-// si intende gestire i prodotti in vendita in un negozio di elettronica le entita principali sono: smartphone, tablet e computer portatili le caratteristiche comuni sono: marca modello prezzo e garanzia
-
-implementare in linguaggio java le classi progettate, specficando cstruttori e metodi d accesso agli attributi dal tipo di processore e sovrascrivendo opportunamente i metodi e entercodificare una class Elettronica il cui metdo main istanzi oggetti delle varie tipologia
-testi i metod
-
-// Classe base: ProdottoElettronico
+// if wrong text me again
 abstract class ProdottoElettronico {
     protected String marca;
     protected String modello;
@@ -28,7 +19,6 @@ abstract class ProdottoElettronico {
     }
 }
 
-// Classe derivata: Smartphone
 class Smartphone extends ProdottoElettronico {
     private boolean ha5G;
 
@@ -43,7 +33,6 @@ class Smartphone extends ProdottoElettronico {
     }
 }
 
-// Classe derivata: Tablet
 class Tablet extends ProdottoElettronico {
     private double dimensioneSchermo;
 
@@ -58,7 +47,6 @@ class Tablet extends ProdottoElettronico {
     }
 }
 
-// Classe derivata: ComputerPortatile
 class ComputerPortatile extends ProdottoElettronico {
     private int ram;
     private int storage;
@@ -75,7 +63,6 @@ class ComputerPortatile extends ProdottoElettronico {
     }
 }
 
-// Classe principale per testare le classi
 public class Elettronica {
     public static void main(String[] args) {
         ProdottoElettronico s1 = new Smartphone("Samsung", "Galaxy S21", 899.99, 2, "Exynos", true);
