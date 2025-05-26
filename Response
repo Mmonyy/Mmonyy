@@ -1,26 +1,188 @@
+import javax.swing.*;//Importa le classi per l'interfaccia grafica Swing.
+import java.awt.*;//Importa le classi per la grafica e i layout.
+import java.awt.event.ActionEvent;//La classe per gestire gli eventi.
+import java.awt.event.ActionListener;//L'interfaccia per l'ascolto degli eventi.
+import java.text.DecimalFormat;//Utilità per la formattazione di numeri decimali.
 
+public class Erogatore extends JFrame implements ActionListener {//Definizione della classe principale Erogatore, estendendo JFrame e implementando ActionListener.
 
-private NodoAlbero metodo2(NodoAlbero p, char k) {
-    // Controlla se il nodo attuale è nullo
-    // Se lo è, termina la ricorsione restituendo null
-    if (p == null) {
-        return null;
+    private JTextField creditoInput;//Campo di testo per l'inserimento del credito.
+    private JButton inserisciButton;//Pulsante per l'aggiunta del credito.
+    private JButton benzinaButton;//Pulsante per la selezione della benzina.
+    private JButton dieselButton;//Pulsante per la selezione del diesel.
+    private JLabel carburanteSelezionatoLabel;//Etichetta per visualizzare il carburante selezionato.
+    private JTextField quantitaInput;//Campo di testo per l'inserimento della quantità.
+    private JButton erogaButton;//Pulsante per avviare l'erogazione.
+    private JLabel creditoDisponibileLabel;//Etichetta per visualizzare il credito disponibile.
+    private JLabel feedbackLabel;//Etichetta per fornire feedback all'utente.
+
+    private double creditoDisponibile = 0.0;//Credito iniziale disponibile.
+    private String carburanteSelezionato = "Nessuna selezione";//Stato iniziale della selezione carburante.
+
+    //Costanti per i prezzi del carburante per litro.
+    private static final double PREZZO_BENZINA = 1.85;
+    private static final double PREZZO_DIESEL = 1.70;
+
+    public Erogatore() {//Costruttore della classe Erogatore.
+        setTitle("Erogatore di Benzina (Semplificato)");//Imposta il titolo della finestra.
+        setSize(550, 400);//Definisce le dimensioni della finestra.
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//Specifica l'operazione di chiusura predefinita.
+        setLocationRelativeTo(null);//Centra la finestra sullo schermo.
+
+        setLayout(null);//Utilizzo di un layout nullo per il posizionamento manuale dei componenti.
+
+        //Inizializzazione e posizionamento dei componenti.
+
+        JLabel inserisciCreditoLabel = new JLabel("Inserisci Credito (€):");
+        inserisciCreditoLabel.setBounds(30, 30, 150, 25);
+        add(inserisciCreditoLabel);
+
+        creditoInput = new JTextField();
+        creditoInput.setBounds(180, 30, 150, 25);
+        add(creditoInput);
+
+        inserisciButton = new JButton("Inserisci");
+        inserisciButton.setBounds(350, 30, 100, 25);
+        inserisciButton.setBackground(new Color(150, 200, 255));
+        inserisciButton.setOpaque(true);
+        inserisciButton.setBorderPainted(false);
+        inserisciButton.addActionListener(this);//Registra 'this' come listener.
+        add(inserisciButton);
+
+        JLabel selezionaCarburanteLabel = new JLabel("Seleziona Carburante:");
+        selezionaCarburanteLabel.setBounds(30, 100, 150, 25);
+        add(selezionaCarburanteLabel);
+
+        benzinaButton = new JButton("Benzina");
+        benzinaButton.setBounds(200, 100, 80, 25);
+        benzinaButton.addActionListener(this);//Registra 'this' come listener.
+        add(benzinaButton);
+
+        dieselButton = new JButton("Diesel");
+        dieselButton.setBounds(300, 100, 80, 25);
+        dieselButton.addActionListener(this);//Registra 'this' come listener.
+        add(dieselButton);
+
+        JLabel carburanteSelezionatoStaticLabel = new JLabel("Carburante Selezionato:");
+        carburanteSelezionatoStaticLabel.setBounds(30, 170, 150, 25);
+        add(carburanteSelezionatoStaticLabel);
+
+        carburanteSelezionatoLabel = new JLabel("Nessuna selezione");
+        carburanteSelezionatoLabel.setBounds(190, 170, 150, 25);
+        add(carburanteSelezionatoLabel);
+
+        JLabel inserisciQuantitaLabel = new JLabel("Inserisci Quantità (litri):");
+        inserisciQuantitaLabel.setBounds(350, 170, 150, 25);
+        add(inserisciQuantitaLabel);
+
+        quantitaInput = new JTextField();
+        quantitaInput.setBounds(30, 240, 150, 25);
+        add(quantitaInput);
+
+        erogaButton = new JButton("Eroga");
+        erogaButton.setBounds(200, 240, 100, 25);
+        erogaButton.setBackground(new Color(200, 255, 200));
+        erogaButton.setOpaque(true);
+        erogaButton.setBorderPainted(false);
+        erogaButton.addActionListener(this);//Registra 'this' come listener.
+        add(erogaButton);
+
+        JLabel creditoDisponibileStaticLabel = new JLabel("Credito Disponibile:");
+        creditoDisponibileStaticLabel.setBounds(30, 300, 150, 25);
+        add(creditoDisponibileStaticLabel);
+
+        creditoDisponibileLabel = new JLabel("€ " + new DecimalFormat("0.00").format(creditoDisponibile));
+        creditoDisponibileLabel.setBounds(190, 300, 150, 25);
+        creditoDisponibileLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
+        add(creditoDisponibileLabel);
+
+        feedbackLabel = new JLabel("");
+        feedbackLabel.setBounds(30, 330, 500, 25);
+        feedbackLabel.setForeground(Color.RED);
+        add(feedbackLabel);
+
+        setVisible(true);//Rende la finestra visibile.
     }
 
-    // Chiamata ricorsiva per esplorare il sottoalbero dei figli del nodo corrente
-    // Il risultato viene assegnato come primo figlio del nodo corrente
-    p.setFirstChild(boscalo(p.getFirstChild(), k));
+    @Override
+    public void actionPerformed(ActionEvent e) {//Metodo unificato per la gestione degli eventi.
+        Object source = e.getSource(); //Ottiene il componente che ha generato l'evento.
+        feedbackLabel.setText(""); //Azzera il feedback ad ogni nuova azione.
 
-    // Chiamata ricorsiva per esplorare i fratelli del nodo corrente
-    // Il risultato viene assegnato come primo fratello del nodo corrente
-    p.setFirstSibling(boscalo(p.getFirstSibling(), k));
+        if (source == inserisciButton) {
+            try {
+                double newCredit = Double.parseDouble(creditoInput.getText());
+                if (newCredit > 0) {
+                    creditoDisponibile += newCredit;
+                    updateCreditoDisponibileLabel();
+                    creditoInput.setText("");
+                    feedbackLabel.setForeground(Color.BLUE);
+                    feedbackLabel.setText("Credito aggiunto: €" + new DecimalFormat("0.00").format(newCredit));
+                } else {
+                    feedbackLabel.setForeground(Color.RED);
+                    feedbackLabel.setText("Inserire un credito positivo.");
+                }
+            } catch (NumberFormatException ex) {
+                feedbackLabel.setForeground(Color.RED);
+                feedbackLabel.setText("Inserire un numero valido per il credito.");
+            }
+        } else if (source == benzinaButton) {
+            carburanteSelezionato = "Benzina";
+            carburanteSelezionatoLabel.setText(carburanteSelezionato);
+        } else if (source == dieselButton) {
+            carburanteSelezionato = "Diesel";
+            carburanteSelezionatoLabel.setText(carburanteSelezionato);
+        } else if (source == erogaButton) {
+            if (carburanteSelezionato.equals("Nessuna selezione")) {
+                feedbackLabel.setForeground(Color.RED);
+                feedbackLabel.setText("Selezionare prima un tipo di carburante.");
+                return;
+            }
 
-    // Controlla se il valore del nodo corrente è uguale a k
-    if (p.getInfo() == k) {
-        // Mancano istruzioni per il caso in cui il nodo con valore k venga trovato
-        // Probabilmente qui dovrebbe restituire il nodo corrente o eseguire un'operazione su di esso
+            try {
+                double quantitaRichiesta = Double.parseDouble(quantitaInput.getText());
+                if (quantitaRichiesta <= 0) {
+                    feedbackLabel.setForeground(Color.RED);
+                    feedbackLabel.setText("Inserire una quantità positiva.");
+                    return;
+                }
+
+                double costoPerLitro = 0;
+                if (carburanteSelezionato.equals("Benzina")) {
+                    costoPerLitro = PREZZO_BENZINA;
+                } else if (carburanteSelezionato.equals("Diesel")) {
+                    costoPerLitro = PREZZO_DIESEL;
+                }
+
+                double costoTotale = quantitaRichiesta * costoPerLitro;
+
+                if (creditoDisponibile >= costoTotale) {
+                    creditoDisponibile -= costoTotale;
+                    updateCreditoDisponibileLabel();
+                    quantitaInput.setText("");
+                    feedbackLabel.setForeground(Color.GREEN.darker());
+                    feedbackLabel.setText("Erogati " + new DecimalFormat("0.00").format(quantitaRichiesta) + " litri di " +
+                            carburanteSelezionato + ". Costo: €" + new DecimalFormat("0.00").format(costoTotale));
+                } else {
+                    feedbackLabel.setForeground(Color.ORANGE.darker());
+                    feedbackLabel.setText("Credito insufficiente. Necessari €" + new DecimalFormat("0.00").format(costoTotale - creditoDisponibile));
+                }
+
+            } catch (NumberFormatException ex) {
+                feedbackLabel.setForeground(Color.RED);
+                feedbackLabel.setText("Inserire un numero valido per la quantità.");
+            }
+        }
     }
 
-    // Il metodo non restituisce nulla in caso di nodo non trovato, 
-    // probabilmente manca un 'return' corretto
+    private void updateCreditoDisponibileLabel() {//Metodo per aggiornare l'etichetta del credito disponibile.
+        DecimalFormat df = new DecimalFormat("0.00");
+        creditoDisponibileLabel.setText("€ " + df.format(creditoDisponibile));
+    }
+
+    public static void main(String[] args) {//Metodo principale per l'esecuzione dell'applicazione.
+
+                new Erogatore();//Crea una nuova istanza della classe Erogatore.
+           
+    }
 }
