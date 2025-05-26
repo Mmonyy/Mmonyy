@@ -1,3 +1,7 @@
+//Apri il terminale nella cartella dove hai salvato il file .java e usa questi comandi:
+// javac TostapaneApp.java
+// java TostapaneApp
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
