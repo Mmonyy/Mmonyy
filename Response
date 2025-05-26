@@ -1,6 +1,7 @@
-//Apri il terminale nella cartella dove hai salvato il file .java e usa questi comandi:
+// codice sistemato (l'ho testato sul mio e funziona). Comandi da eseguire nella directory di lavoro per compilare:
 // javac TostapaneApp.java
 // java TostapaneApp
+// assicurati che il file si chiami TostapaneApp.java
 
 import java.awt.*;
 import java.awt.event.*;
@@ -74,9 +75,10 @@ public class TostapaneApp {
                     statoLabel.setText("Stato: Nessuna fetta da tostare");
                     return;
                 }
-                String livello = "Leggera";
+                final String livello;
                 if (mediaBtn.isSelected()) livello = "Media";
                 else if (intensaBtn.isSelected()) livello = "Intensa";
+                else livello = "Leggera"; // fallback
 
                 statoLabel.setText("Stato: Tostando... (" + livello + ")");
                 Timer timer = new Timer(2000, new ActionListener() {
@@ -86,6 +88,7 @@ public class TostapaneApp {
                         fetteLabel.setText("Fette nel tostapane: 0 / " + MAX_FETTE);
                     }
                 });
+
                 timer.setRepeats(false);
                 timer.start();
             }
