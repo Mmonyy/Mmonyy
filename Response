@@ -1,188 +1,98 @@
-import javax.swing.*;//Importa le classi per l'interfaccia grafica Swing.
-import java.awt.*;//Importa le classi per la grafica e i layout.
-import java.awt.event.ActionEvent;//La classe per gestire gli eventi.
-import java.awt.event.ActionListener;//L'interfaccia per l'ascolto degli eventi.
-import java.text.DecimalFormat;//Utilità per la formattazione di numeri decimali.
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
-public class Erogatore extends JFrame implements ActionListener {//Definizione della classe principale Erogatore, estendendo JFrame e implementando ActionListener.
+public class TostapaneApp {
+    private JFrame frame;
+    private JLabel statoLabel;
+    private JLabel fetteLabel;
+    private JRadioButton leggeraBtn, mediaBtn, intensaBtn;
+    private JButton inserisciBtn, tostaBtn;
+    private ButtonGroup livelloGroup;
 
-    private JTextField creditoInput;//Campo di testo per l'inserimento del credito.
-    private JButton inserisciButton;//Pulsante per l'aggiunta del credito.
-    private JButton benzinaButton;//Pulsante per la selezione della benzina.
-    private JButton dieselButton;//Pulsante per la selezione del diesel.
-    private JLabel carburanteSelezionatoLabel;//Etichetta per visualizzare il carburante selezionato.
-    private JTextField quantitaInput;//Campo di testo per l'inserimento della quantità.
-    private JButton erogaButton;//Pulsante per avviare l'erogazione.
-    private JLabel creditoDisponibileLabel;//Etichetta per visualizzare il credito disponibile.
-    private JLabel feedbackLabel;//Etichetta per fornire feedback all'utente.
+    private int fette = 0;
+    private final int MAX_FETTE = 4;
 
-    private double creditoDisponibile = 0.0;//Credito iniziale disponibile.
-    private String carburanteSelezionato = "Nessuna selezione";//Stato iniziale della selezione carburante.
+    public TostapaneApp() {
+        frame = new JFrame("Simulatore di Tostapane");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 300);
+        frame.setLayout(new BorderLayout());
 
-    //Costanti per i prezzi del carburante per litro.
-    private static final double PREZZO_BENZINA = 1.85;
-    private static final double PREZZO_DIESEL = 1.70;
+        // Stato del tostapane
+        statoLabel = new JLabel("Stato: Pronto", SwingConstants.CENTER);
+        statoLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        frame.add(statoLabel, BorderLayout.NORTH);
 
-    public Erogatore() {//Costruttore della classe Erogatore.
-        setTitle("Erogatore di Benzina (Semplificato)");//Imposta il titolo della finestra.
-        setSize(550, 400);//Definisce le dimensioni della finestra.
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//Specifica l'operazione di chiusura predefinita.
-        setLocationRelativeTo(null);//Centra la finestra sullo schermo.
+        // Centro con i controlli
+        JPanel centerPanel = new JPanel();
+        centerPanel.setLayout(new GridLayout(4, 1));
 
-        setLayout(null);//Utilizzo di un layout nullo per il posizionamento manuale dei componenti.
+        // Selezione livello doratura
+        JPanel doraturaPanel = new JPanel();
+        doraturaPanel.setBorder(BorderFactory.createTitledBorder("Livello di Doratura"));
+        leggeraBtn = new JRadioButton("Leggera", true);
+        mediaBtn = new JRadioButton("Media");
+        intensaBtn = new JRadioButton("Intensa");
+        livelloGroup = new ButtonGroup();
+        livelloGroup.add(leggeraBtn);
+        livelloGroup.add(mediaBtn);
+        livelloGroup.add(intensaBtn);
+        doraturaPanel.add(leggeraBtn);
+        doraturaPanel.add(mediaBtn);
+        doraturaPanel.add(intensaBtn);
+        centerPanel.add(doraturaPanel);
 
-        //Inizializzazione e posizionamento dei componenti.
+        // Etichetta numero fette
+        fetteLabel = new JLabel("Fette nel tostapane: 0 / " + MAX_FETTE, SwingConstants.CENTER);
+        centerPanel.add(fetteLabel);
 
-        JLabel inserisciCreditoLabel = new JLabel("Inserisci Credito (€):");
-        inserisciCreditoLabel.setBounds(30, 30, 150, 25);
-        add(inserisciCreditoLabel);
-
-        creditoInput = new JTextField();
-        creditoInput.setBounds(180, 30, 150, 25);
-        add(creditoInput);
-
-        inserisciButton = new JButton("Inserisci");
-        inserisciButton.setBounds(350, 30, 100, 25);
-        inserisciButton.setBackground(new Color(150, 200, 255));
-        inserisciButton.setOpaque(true);
-        inserisciButton.setBorderPainted(false);
-        inserisciButton.addActionListener(this);//Registra 'this' come listener.
-        add(inserisciButton);
-
-        JLabel selezionaCarburanteLabel = new JLabel("Seleziona Carburante:");
-        selezionaCarburanteLabel.setBounds(30, 100, 150, 25);
-        add(selezionaCarburanteLabel);
-
-        benzinaButton = new JButton("Benzina");
-        benzinaButton.setBounds(200, 100, 80, 25);
-        benzinaButton.addActionListener(this);//Registra 'this' come listener.
-        add(benzinaButton);
-
-        dieselButton = new JButton("Diesel");
-        dieselButton.setBounds(300, 100, 80, 25);
-        dieselButton.addActionListener(this);//Registra 'this' come listener.
-        add(dieselButton);
-
-        JLabel carburanteSelezionatoStaticLabel = new JLabel("Carburante Selezionato:");
-        carburanteSelezionatoStaticLabel.setBounds(30, 170, 150, 25);
-        add(carburanteSelezionatoStaticLabel);
-
-        carburanteSelezionatoLabel = new JLabel("Nessuna selezione");
-        carburanteSelezionatoLabel.setBounds(190, 170, 150, 25);
-        add(carburanteSelezionatoLabel);
-
-        JLabel inserisciQuantitaLabel = new JLabel("Inserisci Quantità (litri):");
-        inserisciQuantitaLabel.setBounds(350, 170, 150, 25);
-        add(inserisciQuantitaLabel);
-
-        quantitaInput = new JTextField();
-        quantitaInput.setBounds(30, 240, 150, 25);
-        add(quantitaInput);
-
-        erogaButton = new JButton("Eroga");
-        erogaButton.setBounds(200, 240, 100, 25);
-        erogaButton.setBackground(new Color(200, 255, 200));
-        erogaButton.setOpaque(true);
-        erogaButton.setBorderPainted(false);
-        erogaButton.addActionListener(this);//Registra 'this' come listener.
-        add(erogaButton);
-
-        JLabel creditoDisponibileStaticLabel = new JLabel("Credito Disponibile:");
-        creditoDisponibileStaticLabel.setBounds(30, 300, 150, 25);
-        add(creditoDisponibileStaticLabel);
-
-        creditoDisponibileLabel = new JLabel("€ " + new DecimalFormat("0.00").format(creditoDisponibile));
-        creditoDisponibileLabel.setBounds(190, 300, 150, 25);
-        creditoDisponibileLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
-        add(creditoDisponibileLabel);
-
-        feedbackLabel = new JLabel("");
-        feedbackLabel.setBounds(30, 330, 500, 25);
-        feedbackLabel.setForeground(Color.RED);
-        add(feedbackLabel);
-
-        setVisible(true);//Rende la finestra visibile.
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {//Metodo unificato per la gestione degli eventi.
-        Object source = e.getSource(); //Ottiene il componente che ha generato l'evento.
-        feedbackLabel.setText(""); //Azzera il feedback ad ogni nuova azione.
-
-        if (source == inserisciButton) {
-            try {
-                double newCredit = Double.parseDouble(creditoInput.getText());
-                if (newCredit > 0) {
-                    creditoDisponibile += newCredit;
-                    updateCreditoDisponibileLabel();
-                    creditoInput.setText("");
-                    feedbackLabel.setForeground(Color.BLUE);
-                    feedbackLabel.setText("Credito aggiunto: €" + new DecimalFormat("0.00").format(newCredit));
+        // Pulsante Inserisci fetta
+        inserisciBtn = new JButton("Inserisci fetta");
+        inserisciBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (fette < MAX_FETTE) {
+                    fette++;
+                    fetteLabel.setText("Fette nel tostapane: " + fette + " / " + MAX_FETTE);
+                    statoLabel.setText("Stato: Fetta inserita");
                 } else {
-                    feedbackLabel.setForeground(Color.RED);
-                    feedbackLabel.setText("Inserire un credito positivo.");
+                    statoLabel.setText("Stato: Tostapane pieno!");
                 }
-            } catch (NumberFormatException ex) {
-                feedbackLabel.setForeground(Color.RED);
-                feedbackLabel.setText("Inserire un numero valido per il credito.");
             }
-        } else if (source == benzinaButton) {
-            carburanteSelezionato = "Benzina";
-            carburanteSelezionatoLabel.setText(carburanteSelezionato);
-        } else if (source == dieselButton) {
-            carburanteSelezionato = "Diesel";
-            carburanteSelezionatoLabel.setText(carburanteSelezionato);
-        } else if (source == erogaButton) {
-            if (carburanteSelezionato.equals("Nessuna selezione")) {
-                feedbackLabel.setForeground(Color.RED);
-                feedbackLabel.setText("Selezionare prima un tipo di carburante.");
-                return;
-            }
+        });
+        centerPanel.add(inserisciBtn);
 
-            try {
-                double quantitaRichiesta = Double.parseDouble(quantitaInput.getText());
-                if (quantitaRichiesta <= 0) {
-                    feedbackLabel.setForeground(Color.RED);
-                    feedbackLabel.setText("Inserire una quantità positiva.");
+        // Pulsante Tosta
+        tostaBtn = new JButton("Tosta");
+        tostaBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (fette == 0) {
+                    statoLabel.setText("Stato: Nessuna fetta da tostare");
                     return;
                 }
+                String livello = "Leggera";
+                if (mediaBtn.isSelected()) livello = "Media";
+                else if (intensaBtn.isSelected()) livello = "Intensa";
 
-                double costoPerLitro = 0;
-                if (carburanteSelezionato.equals("Benzina")) {
-                    costoPerLitro = PREZZO_BENZINA;
-                } else if (carburanteSelezionato.equals("Diesel")) {
-                    costoPerLitro = PREZZO_DIESEL;
-                }
-
-                double costoTotale = quantitaRichiesta * costoPerLitro;
-
-                if (creditoDisponibile >= costoTotale) {
-                    creditoDisponibile -= costoTotale;
-                    updateCreditoDisponibileLabel();
-                    quantitaInput.setText("");
-                    feedbackLabel.setForeground(Color.GREEN.darker());
-                    feedbackLabel.setText("Erogati " + new DecimalFormat("0.00").format(quantitaRichiesta) + " litri di " +
-                            carburanteSelezionato + ". Costo: €" + new DecimalFormat("0.00").format(costoTotale));
-                } else {
-                    feedbackLabel.setForeground(Color.ORANGE.darker());
-                    feedbackLabel.setText("Credito insufficiente. Necessari €" + new DecimalFormat("0.00").format(costoTotale - creditoDisponibile));
-                }
-
-            } catch (NumberFormatException ex) {
-                feedbackLabel.setForeground(Color.RED);
-                feedbackLabel.setText("Inserire un numero valido per la quantità.");
+                statoLabel.setText("Stato: Tostando... (" + livello + ")");
+                Timer timer = new Timer(2000, new ActionListener() {
+                    public void actionPerformed(ActionEvent evt) {
+                        statoLabel.setText("Stato: Tostatura completata (" + livello + ")");
+                        fette = 0;
+                        fetteLabel.setText("Fette nel tostapane: 0 / " + MAX_FETTE);
+                    }
+                });
+                timer.setRepeats(false);
+                timer.start();
             }
-        }
+        });
+        centerPanel.add(tostaBtn);
+
+        frame.add(centerPanel, BorderLayout.CENTER);
+        frame.setVisible(true);
     }
 
-    private void updateCreditoDisponibileLabel() {//Metodo per aggiornare l'etichetta del credito disponibile.
-        DecimalFormat df = new DecimalFormat("0.00");
-        creditoDisponibileLabel.setText("€ " + df.format(creditoDisponibile));
-    }
-
-    public static void main(String[] args) {//Metodo principale per l'esecuzione dell'applicazione.
-
-                new Erogatore();//Crea una nuova istanza della classe Erogatore.
-           
+    public static void main(String[] args) {
+        new TostapaneApp();
     }
 }
