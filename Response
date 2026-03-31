@@ -1,105 +1,67 @@
-// codice sistemato (l'ho testato sul mio e funziona). Comandi da eseguire nella directory di lavoro per compilare:
-// javac TostapaneApp.java
-// java TostapaneApp
-// assicurati che il file si chiami TostapaneApp.java
-
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-
-public class TostapaneApp {
-    private JFrame frame;
-    private JLabel statoLabel;
-    private JLabel fetteLabel;
-    private JRadioButton leggeraBtn, mediaBtn, intensaBtn;
-    private JButton inserisciBtn, tostaBtn;
-    private ButtonGroup livelloGroup;
-
-    private int fette = 0;
-    private final int MAX_FETTE = 4;
-
-    public TostapaneApp() {
-        frame = new JFrame("Simulatore di Tostapane");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
-        frame.setLayout(new BorderLayout());
-
-        // Stato del tostapane
-        statoLabel = new JLabel("Stato: Pronto", SwingConstants.CENTER);
-        statoLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        frame.add(statoLabel, BorderLayout.NORTH);
-
-        // Centro con i controlli
-        JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new GridLayout(4, 1));
-
-        // Selezione livello doratura
-        JPanel doraturaPanel = new JPanel();
-        doraturaPanel.setBorder(BorderFactory.createTitledBorder("Livello di Doratura"));
-        leggeraBtn = new JRadioButton("Leggera", true);
-        mediaBtn = new JRadioButton("Media");
-        intensaBtn = new JRadioButton("Intensa");
-        livelloGroup = new ButtonGroup();
-        livelloGroup.add(leggeraBtn);
-        livelloGroup.add(mediaBtn);
-        livelloGroup.add(intensaBtn);
-        doraturaPanel.add(leggeraBtn);
-        doraturaPanel.add(mediaBtn);
-        doraturaPanel.add(intensaBtn);
-        centerPanel.add(doraturaPanel);
-
-        // Etichetta numero fette
-        fetteLabel = new JLabel("Fette nel tostapane: 0 / " + MAX_FETTE, SwingConstants.CENTER);
-        centerPanel.add(fetteLabel);
-
-        // Pulsante Inserisci fetta
-        inserisciBtn = new JButton("Inserisci fetta");
-        inserisciBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (fette < MAX_FETTE) {
-                    fette++;
-                    fetteLabel.setText("Fette nel tostapane: " + fette + " / " + MAX_FETTE);
-                    statoLabel.setText("Stato: Fetta inserita");
-                } else {
-                    statoLabel.setText("Stato: Tostapane pieno!");
-                }
-            }
-        });
-        centerPanel.add(inserisciBtn);
-
-        // Pulsante Tosta
-        tostaBtn = new JButton("Tosta");
-        tostaBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (fette == 0) {
-                    statoLabel.setText("Stato: Nessuna fetta da tostare");
-                    return;
-                }
-                final String livello;
-                if (mediaBtn.isSelected()) livello = "Media";
-                else if (intensaBtn.isSelected()) livello = "Intensa";
-                else livello = "Leggera"; // fallback
-
-                statoLabel.setText("Stato: Tostando... (" + livello + ")");
-                Timer timer = new Timer(2000, new ActionListener() {
-                    public void actionPerformed(ActionEvent evt) {
-                        statoLabel.setText("Stato: Tostatura completata (" + livello + ")");
-                        fette = 0;
-                        fetteLabel.setText("Fette nel tostapane: 0 / " + MAX_FETTE);
-                    }
-                });
-
-                timer.setRepeats(false);
-                timer.start();
-            }
-        });
-        centerPanel.add(tostaBtn);
-
-        frame.add(centerPanel, BorderLayout.CENTER);
-        frame.setVisible(true);
+<?php
+// Funzione che verifica se $a è multiplo di $b
+function IsMultiplo($a, $b) {
+    if ($b == 0) {
+        return false; // evitare divisione per zero
     }
-
-    public static void main(String[] args) {
-        new TostapaneApp();
-    }
+    return ($a % $b == 0);
 }
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verifica Multiplo</title>
+</head>
+<body>
+
+<form method="post">
+    <h3>Prima coppia</h3>
+    Numero 1: <input type="number" name="a1"><br>
+    Numero 2: <input type="number" name="b1"><br>
+
+    <h3>Seconda coppia</h3>
+    Numero 1: <input type="number" name="a2"><br>
+    Numero 2: <input type="number" name="b2"><br><br>
+
+    <input type="submit" name="invia" value="Verifica">
+</form>
+
+<?php
+if (isset($_POST['invia'])) {
+
+    // Recupero valori dal form
+    $a1 = $_POST['a1'];
+    $b1 = $_POST['b1'];
+    $a2 = $_POST['a2'];
+    $b2 = $_POST['b2'];
+
+    // Prima coppia
+    if (IsMultiplo($a1, $b1)) {
+        echo "$a1 è multiplo di $b1<br>";
+    } else {
+        echo "$a1 NON è multiplo di $b1<br>";
+    }
+
+    // Seconda coppia
+    if (IsMultiplo($a2, $b2)) {
+        echo "$a2 è multiplo di $b2<br>";
+    } else {
+        echo "$a2 NON è multiplo di $b2<br>";
+    }
+
+    // Esempio fisso richiesto
+    echo "<hr>";
+    echo "<strong>Esempi fissi:</strong><br>";
+
+    echo "12 e 4 → ";
+    echo IsMultiplo(12, 4) ? "true" : "false";
+    echo "<br>";
+
+    echo "10 e 3 → ";
+    echo IsMultiplo(10, 3) ? "true" : "false";
+}
+?>
+
+</body>
+</html>
