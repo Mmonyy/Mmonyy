@@ -1,8 +1,7 @@
 <?php
-// Funzione che verifica se $a è multiplo di $b
 function IsMultiplo($a, $b) {
     if ($b == 0) {
-        return false; // evitare divisione per zero
+        return false;
     }
     return ($a % $b == 0);
 }
@@ -30,27 +29,23 @@ function IsMultiplo($a, $b) {
 <?php
 if (isset($_POST['invia'])) {
 
-    // Recupero valori dal form
     $a1 = $_POST['a1'];
     $b1 = $_POST['b1'];
     $a2 = $_POST['a2'];
     $b2 = $_POST['b2'];
 
-    // Prima coppia
     if (IsMultiplo($a1, $b1)) {
         echo "$a1 è multiplo di $b1<br>";
     } else {
         echo "$a1 NON è multiplo di $b1<br>";
     }
 
-    // Seconda coppia
     if (IsMultiplo($a2, $b2)) {
         echo "$a2 è multiplo di $b2<br>";
     } else {
         echo "$a2 NON è multiplo di $b2<br>";
     }
 
-    // Esempio fisso richiesto
     echo "<hr>";
     echo "<strong>Esempi fissi:</strong><br>";
 
