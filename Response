@@ -1,6 +1,15 @@
 function isPalindroma($stringa) {
     $stringa = strtolower(str_replace(' ', '', $stringa));
-    return $stringa === strrev($stringa);
+
+    $lunghezza = strlen($stringa);
+
+    for ($i = 0; $i < $lunghezza / 2; $i++) {
+        if ($stringa[$i] != $stringa[$lunghezza - 1 - $i]) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 $parola1 = "Anna";
@@ -12,20 +21,3 @@ echo "<br>";
 
 echo "$parola2 → ";
 echo isPalindroma($parola2) ? "true" : "false";
-
-<form method="POST">
-    <input type="text" name="parola" placeholder="Inserisci parola">
-    <button type="submit" name="check">Controlla</button>
-</form>
-
-<?php
-if (isset($_POST['check'])) {
-    $parola = $_POST['parola'];
-
-    if (isPalindroma($parola)) {
-        echo "È palindroma";
-    } else {
-        echo "NON è palindroma";
-    }
-}
-?>
