@@ -1,6 +1,5 @@
 function isPalindroma($stringa) {
     $stringa = strtolower(str_replace(' ', '', $stringa));
-
     $lunghezza = strlen($stringa);
 
     for ($i = 0; $i < $lunghezza / 2; $i++) {
