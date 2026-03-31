@@ -1,62 +1,35 @@
+<div class="element">
+    <form class="element" method="GET">
+        <input class="element" type="number" name="Numero1" placeholder="Numero 1">
+        <input class="element" type="number" name="Numero2" placeholder="Numero 2">
+        <button class="element" type="submit" name="btn_multiplo">Invia</button>
+    </form>
+</div>
+
+<div class="ismultiplo">
 <?php
+
 function IsMultiplo($a, $b) {
     if ($b == 0) {
         return false;
     }
     return ($a % $b == 0);
 }
-?>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Verifica Multiplo</title>
-</head>
-<body>
+if (isset($_GET['btn_multiplo'])) {
 
-<form method="post">
-    <h3>Prima coppia</h3>
-    Numero 1: <input type="number" name="a1"><br>
-    Numero 2: <input type="number" name="b1"><br>
+    $N1 = intval($_GET['Numero1']);
+    $N2 = intval($_GET['Numero2']);
 
-    <h3>Seconda coppia</h3>
-    Numero 1: <input type="number" name="a2"><br>
-    Numero 2: <input type="number" name="b2"><br><br>
-
-    <input type="submit" name="invia" value="Verifica">
-</form>
-
-<?php
-if (isset($_POST['invia'])) {
-
-    $a1 = $_POST['a1'];
-    $b1 = $_POST['b1'];
-    $a2 = $_POST['a2'];
-    $b2 = $_POST['b2'];
-
-    if (IsMultiplo($a1, $b1)) {
-        echo "$a1 è multiplo di $b1<br>";
+    if (IsMultiplo($N1, $N2)) {
+        echo "Il numero è multiplo";
     } else {
-        echo "$a1 NON è multiplo di $b1<br>";
+        echo "Il numero NON è multiplo";
     }
 
-    if (IsMultiplo($a2, $b2)) {
-        echo "$a2 è multiplo di $b2<br>";
-    } else {
-        echo "$a2 NON è multiplo di $b2<br>";
-    }
-
-    echo "<hr>";
-    echo "<strong>Esempi fissi:</strong><br>";
-
-    echo "12 e 4 → ";
-    echo IsMultiplo(12, 4) ? "true" : "false";
-    echo "<br>";
-
-    echo "10 e 3 → ";
-    echo IsMultiplo(10, 3) ? "true" : "false";
+} else {
+    echo "Invia il form per vedere il risultato (GET)";
 }
-?>
 
-</body>
-</html>
+?>
+</div>
