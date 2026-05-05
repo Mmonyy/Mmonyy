@@ -1,94 +1,30 @@
--- 1. CREA LE TABELLE CORSI E STUDENTI (E LE ALTRE NECESSARIE)
-CREATE TABLE Corsi (
-    CodCorso INT PRIMARY KEY,
-    NomeCorso VARCHAR(100),
-    Facolta VARCHAR(100),
-    Durata INT
-);
-
-CREATE TABLE Studenti (
-    Matricola INT PRIMARY KEY,
-    Nome VARCHAR(50),
-    Cognome VARCHAR(50),
-    Citta VARCHAR(50),
-    AnnoNascita INT,
-    CodCorso INT,
-    FOREIGN KEY (CodCorso) REFERENCES Corsi(CodCorso)
-);
-
-CREATE TABLE Docenti (
-    CodDocente INT PRIMARY KEY,
-    Nome VARCHAR(50),
-    Cognome VARCHAR(50),
-    Dipartimento VARCHAR(100)
-);
-
-CREATE TABLE Materie (
-    CodMateria INT PRIMARY KEY,
-    Nome VARCHAR(100),
-    Cognome VARCHAR(50), 
-    CFU INT,
-    CodDocente INT,
-    FOREIGN KEY (CodDocente) REFERENCES Docenti(CodDocente)
-);
-
-CREATE TABLE Esami (
-    Matricola INT,
-    CodMateria INT,
-    Data DATE,
-    Voto INT,
-    PRIMARY KEY (Matricola, CodMateria, Data),
-    FOREIGN KEY (Matricola) REFERENCES Studenti(Matricola),
-    FOREIGN KEY (CodMateria) REFERENCES Materie(CodMateria)
-);
-
--- 2. INSERISCI UN NUOVO STUDENTE
--- Inseriamo prima il corso 3 per non violare il vincolo di Foreign Key
-INSERT INTO Corsi (CodCorso, NomeCorso, Facolta, Durata) 
-VALUES (3, 'Informatica', 'Scienze', 3);
-
-INSERT INTO Studenti (Matricola, Nome, Cognome, Citta, AnnoNascita, CodCorso)
-VALUES (101, 'Thiago', 'Avila', 'Brasilia', 1986, 3);
-
--- 3. ELIMINA TUTTI GLI ESAMI CON VOTO INFERIORE A 18
-DELETE FROM Esami 
-WHERE Voto < 18;
-
--- 4. MOSTRA TUTTI I DATI DI TUTTI GLI STUDENTI DI VERONA
+-- 11. Trova i docenti che non insegnano nessuna materia
 SELECT * 
-FROM Studenti 
-WHERE Citta = 'Verona';
-
--- 5. TROVA TUTTI I CORSI DELLE FACOLTÀ DI INFORMATICA O FISICA
-SELECT * 
-FROM Corsi 
-WHERE Facolta = 'Informatica' OR Facolta = 'Fisica';
-
--- 6. MOSTRA NOME E COGNOME DEI DOCENTI DI INFORMATICA ORDINATI ALFABETICAMENTE
-SELECT Nome, Cognome 
 FROM Docenti 
-WHERE Dipartimento = 'Informatica' 
-ORDER BY Cognome ASC;
+WHERE CodDocente NOT IN (SELECT CodDocente FROM Materie);
 
--- 7. mostra tutte le materie con CFU compresi tra 6 e 12
-SELECT * 
-FROM Materie 
-WHERE CFU BETWEEN 6 AND 12;
+-- 12. Conta quanti studenti sono iscritti a ciascun corso, ordinato per numero di studenti decrescente
+SELECT CodCorso, COUNT(Matricola) AS NumeroStudenti
+FROM Studenti
+GROUP BY CodCorso
+ORDER BY NumeroStudenti DESC;
 
--- 8. mostra il nome di ogni materia insieme al nome e cognome del docente che la insegna
-SELECT M.Nome AS Materia, D.Nome, D.Cognome
-FROM Materie M
-JOIN Docenti D ON M.CodDocente = D.CodDocente;
+-- 13. Trova i corsi che hanno più di 30 studenti iscritti
+SELECT CodCorso, COUNT(Matricola) AS NumeroStudenti
+FROM Studenti
+GROUP BY CodCorso
+HAVING COUNT(Matricola) > 30;
 
--- 9. mostra gli esami sostenuti dagli studenti di verona
-SELECT E.* 
-FROM Esami E
-JOIN Studenti S ON E.Matricola = S.Matricola
-WHERE S.Citta = 'Verona';
-
--- 10. mostra nome e cognome di ogni studente, il nome della materia e il voto per ogni esame sostenuto
-SELECT S.Nome, S.Cognome, M.Nome AS Materia, E.Voto
+-- 14. mostra la media dei voti per ogni studente, ma solo per gli studenti di verona
+SELECT S.Matricola, S.Nome, S.Cognome, AVG(E.Voto) AS MediaVoti
 FROM Studenti S
 JOIN Esami E ON S.Matricola = E.Matricola
-JOIN Materie M ON E.CodMateria = M.CodMateria;
+WHERE S.Citta = 'Verona'
+GROUP BY S.Matricola, S.Nome, S.Cognome;
 
+-- 15. Trova la facoltà con il maggior numero di studenti iscritti
+SELECT TOP 1 C.Facolta, COUNT(S.Matricola) AS NumeroStudenti
+FROM Corsi C
+JOIN Studenti S ON C.CodCorso = S.CodCorso
+GROUP BY C.Facolta
+ORDER BY NumeroStudenti DESC;
