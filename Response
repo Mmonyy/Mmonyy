@@ -1,12 +1,4 @@
-sql-- 1. Tabella Docenti (indipendente)
-CREATE TABLE Docenti (
-    CodDocente INT PRIMARY KEY,
-    Nome VARCHAR(50),
-    Cognome VARCHAR(50),
-    Dipartimento VARCHAR(100)
-);
-
--- 2. Tabella Corsi (indipendente)
+-- 1. CREA LE TABELLE CORSI E STUDENTI (E LE ALTRE NECESSARIE)
 CREATE TABLE Corsi (
     CodCorso INT PRIMARY KEY,
     NomeCorso VARCHAR(100),
@@ -14,7 +6,6 @@ CREATE TABLE Corsi (
     Durata INT
 );
 
--- 3. Tabella Studenti (dipende da Corsi)
 CREATE TABLE Studenti (
     Matricola INT PRIMARY KEY,
     Nome VARCHAR(50),
@@ -25,7 +16,13 @@ CREATE TABLE Studenti (
     FOREIGN KEY (CodCorso) REFERENCES Corsi(CodCorso)
 );
 
--- 4. Tabella Materie (dipende da Docenti)
+CREATE TABLE Docenti (
+    CodDocente INT PRIMARY KEY,
+    Nome VARCHAR(50),
+    Cognome VARCHAR(50),
+    Dipartimento VARCHAR(100)
+);
+
 CREATE TABLE Materie (
     CodMateria INT PRIMARY KEY,
     Nome VARCHAR(100),
@@ -35,7 +32,6 @@ CREATE TABLE Materie (
     FOREIGN KEY (CodDocente) REFERENCES Docenti(CodDocente)
 );
 
--- 5. Tabella Esami (dipende da Studenti e Materie)
 CREATE TABLE Esami (
     Matricola INT,
     CodMateria INT,
@@ -45,3 +41,31 @@ CREATE TABLE Esami (
     FOREIGN KEY (Matricola) REFERENCES Studenti(Matricola),
     FOREIGN KEY (CodMateria) REFERENCES Materie(CodMateria)
 );
+
+-- 2. INSERISCI UN NUOVO STUDENTE
+-- Inseriamo prima il corso 3 per non violare il vincolo di Foreign Key
+INSERT INTO Corsi (CodCorso, NomeCorso, Facolta, Durata) 
+VALUES (3, 'Informatica', 'Scienze', 3);
+
+INSERT INTO Studenti (Matricola, Nome, Cognome, Citta, AnnoNascita, CodCorso)
+VALUES (101, 'Thiago', 'Avila', 'Brasilia', 1986, 3);
+
+-- 3. ELIMINA TUTTI GLI ESAMI CON VOTO INFERIORE A 18
+DELETE FROM Esami 
+WHERE Voto < 18;
+
+-- 4. MOSTRA TUTTI I DATI DI TUTTI GLI STUDENTI DI VERONA
+SELECT * 
+FROM Studenti 
+WHERE Citta = 'Verona';
+
+-- 5. TROVA TUTTI I CORSI DELLE FACOLTÀ DI INFORMATICA O FISICA
+SELECT * 
+FROM Corsi 
+WHERE Facolta = 'Informatica' OR Facolta = 'Fisica';
+
+-- 6. MOSTRA NOME E COGNOME DEI DOCENTI DI INFORMATICA ORDINATI ALFABETICAMENTE
+SELECT Nome, Cognome 
+FROM Docenti 
+WHERE Dipartimento = 'Informatica' 
+ORDER BY Cognome ASC;
