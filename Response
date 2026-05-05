@@ -1,4 +1,12 @@
-sql-- Creazione tabella Corsi
+sql-- 1. Tabella Docenti (indipendente)
+CREATE TABLE Docenti (
+    CodDocente INT PRIMARY KEY,
+    Nome VARCHAR(50),
+    Cognome VARCHAR(50),
+    Dipartimento VARCHAR(100)
+);
+
+-- 2. Tabella Corsi (indipendente)
 CREATE TABLE Corsi (
     CodCorso INT PRIMARY KEY,
     NomeCorso VARCHAR(100),
@@ -6,7 +14,7 @@ CREATE TABLE Corsi (
     Durata INT
 );
 
--- Creazione tabella Studenti
+-- 3. Tabella Studenti (dipende da Corsi)
 CREATE TABLE Studenti (
     Matricola INT PRIMARY KEY,
     Nome VARCHAR(50),
@@ -17,10 +25,23 @@ CREATE TABLE Studenti (
     FOREIGN KEY (CodCorso) REFERENCES Corsi(CodCorso)
 );
 
--- Creazione tabella Docenti
-CREATE TABLE Docenti (
-    CodDocente INT PRIMARY KEY,
-    Nome VARCHAR(50),
-    Cognome VARCHAR(50),
-    Dipartimento VARCHAR(100) -- Assunto in base al testo troncato "Dip"
+-- 4. Tabella Materie (dipende da Docenti)
+CREATE TABLE Materie (
+    CodMateria INT PRIMARY KEY,
+    Nome VARCHAR(100),
+    Cognome VARCHAR(50), 
+    CFU INT,
+    CodDocente INT,
+    FOREIGN KEY (CodDocente) REFERENCES Docenti(CodDocente)
+);
+
+-- 5. Tabella Esami (dipende da Studenti e Materie)
+CREATE TABLE Esami (
+    Matricola INT,
+    CodMateria INT,
+    Data DATE,
+    Voto INT,
+    PRIMARY KEY (Matricola, CodMateria, Data),
+    FOREIGN KEY (Matricola) REFERENCES Studenti(Matricola),
+    FOREIGN KEY (CodMateria) REFERENCES Materie(CodMateria)
 );
