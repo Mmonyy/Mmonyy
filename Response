@@ -69,3 +69,26 @@ SELECT Nome, Cognome
 FROM Docenti 
 WHERE Dipartimento = 'Informatica' 
 ORDER BY Cognome ASC;
+
+-- 7. mostra tutte le materie con CFU compresi tra 6 e 12
+SELECT * 
+FROM Materie 
+WHERE CFU BETWEEN 6 AND 12;
+
+-- 8. mostra il nome di ogni materia insieme al nome e cognome del docente che la insegna
+SELECT M.Nome AS Materia, D.Nome, D.Cognome
+FROM Materie M
+JOIN Docenti D ON M.CodDocente = D.CodDocente;
+
+-- 9. mostra gli esami sostenuti dagli studenti di verona
+SELECT E.* 
+FROM Esami E
+JOIN Studenti S ON E.Matricola = S.Matricola
+WHERE S.Citta = 'Verona';
+
+-- 10. mostra nome e cognome di ogni studente, il nome della materia e il voto per ogni esame sostenuto
+SELECT S.Nome, S.Cognome, M.Nome AS Materia, E.Voto
+FROM Studenti S
+JOIN Esami E ON S.Matricola = E.Matricola
+JOIN Materie M ON E.CodMateria = M.CodMateria;
+
