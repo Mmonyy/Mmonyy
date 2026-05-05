@@ -1,1 +1,26 @@
-test
+sql-- Creazione tabella Corsi
+CREATE TABLE Corsi (
+    CodCorso INT PRIMARY KEY,
+    NomeCorso VARCHAR(100),
+    Facolta VARCHAR(100),
+    Durata INT
+);
+
+-- Creazione tabella Studenti
+CREATE TABLE Studenti (
+    Matricola INT PRIMARY KEY,
+    Nome VARCHAR(50),
+    Cognome VARCHAR(50),
+    Citta VARCHAR(50),
+    AnnoNascita INT,
+    CodCorso INT,
+    FOREIGN KEY (CodCorso) REFERENCES Corsi(CodCorso)
+);
+
+-- Creazione tabella Docenti
+CREATE TABLE Docenti (
+    CodDocente INT PRIMARY KEY,
+    Nome VARCHAR(50),
+    Cognome VARCHAR(50),
+    Dipartimento VARCHAR(100) -- Assunto in base al testo troncato "Dip"
+);
